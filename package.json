@@ -1,0 +1,12 @@
+{
+  "name": "kai-ai-removes",
+  "version": "4.0.0",
+  "private": true,
+  "description": "KAI AI Removes browser-local image cleanup and source-derived frame-by-frame video restoration website.",
+  "author": "KAI AI",
+  "license": "MIT",
+  "scripts": {
+    "start": "python3 -m http.server 4173",
+    "check": "node --check app.js && node --check video-app.js"
+  }
+}
