@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#070910" />
+  <meta name="description" content="CleanMark by KAI AI — private, browser-local image cleanup for images you own." />
+  <link rel="icon" type="image/svg+xml" href="./public/favicon.svg" />
+  <link rel="stylesheet" href="./styles.css" />
+  <title>CleanMark — Powered by KAI AI</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="CleanMark home">
+        <span class="brand-mark">✦</span>
+        <span>CleanMark</span>
+        <span class="powered-pill">KAI AI</span>
+      </a>
+      <nav class="top-actions" aria-label="Utility navigation">
+        <button id="languageButton" class="icon-button text-button" type="button">文 <span>বাংলা</span></button>
+        <button id="themeButton" class="icon-button" type="button" aria-label="Toggle theme">☀</button>
+        <a class="icon-button" href="https://github.com/" target="_blank" rel="noreferrer" aria-label="GitHub">⌘</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero section-pad">
+        <div class="hero-glow hero-glow-a"></div>
+        <div class="hero-glow hero-glow-b"></div>
+        <div class="eyebrow">🔒 <span data-i18n="privacy"></span></div>
+        <h1><span class="plain-title" data-i18n="titleA"></span> <span data-i18n="titleB"></span></h1>
+        <p data-i18n="subtitle"></p>
+        <div class="hero-buttons">
+          <a class="button button-primary" href="#workspace">✦ <span data-i18n="start"></span></a>
+          <a class="button button-secondary" href="#repository">⌘ <span data-i18n="github"></span></a>
+        </div>
+        <div class="trust-row">
+          <span>🛡 <span data-i18n="local"></span></span>
+          <span>▦ <span data-i18n="batch"></span></span>
+          <span>▧ <span data-i18n="formats"></span></span>
+        </div>
+      </section>
+
+      <section class="upload-section section-pad">
+        <div id="dropzone" class="dropzone" role="button" tabindex="0">
+          <input id="fileInput" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp" multiple />
+          <div class="upload-icon">⇧</div>
+          <h2 data-i18n="dropTitle"></h2>
+          <p data-i18n="dropBody"></p>
+          <span class="button button-primary compact" data-i18n="choose"></span>
+        </div>
+        <label class="rights-card">
+          <input id="rightsCheckbox" type="checkbox" />
+          <span class="custom-check" aria-hidden="true">✓</span>
+          <span data-i18n="rights"></span>
+        </label>
+      </section>
+
+      <section class="workspace-section section-pad" id="workspace">
+        <div class="section-heading">
+          <div><span class="section-kicker">01 · EDIT</span><h2 data-i18n="workspace"></h2></div>
+          <p data-i18n="draw"></p>
+        </div>
+
+        <div id="emptyWorkspace" class="empty-workspace">▧<p data-i18n="empty"></p></div>
+
+        <div id="workspaceGrid" class="workspace-grid hidden">
+          <aside class="control-panel">
+            <div class="control-group">
+              <label data-i18n="mode"></label>
+              <button class="mode-card active" type="button" data-mode="edge">
+                <span>✦ <b data-i18n="edge"></b></span><small data-i18n="edgeHelp"></small>
+              </button>
+              <button class="mode-card" type="button" data-mode="soft">
+                <span>◈ <b data-i18n="soft"></b></span><small data-i18n="softHelp"></small>
+              </button>
+              <button class="mode-card" type="button" data-mode="blur">
+                <span>▦ <b data-i18n="blur"></b></span><small data-i18n="blurHelp"></small>
+              </button>
+            </div>
+            <div class="control-group range-group">
+              <label for="feather"><span data-i18n="feather"></span><strong id="featherValue">12px</strong></label>
+              <input id="feather" type="range" min="0" max="30" value="12" />
+            </div>
+            <div class="action-stack">
+              <button id="cleanCurrent" class="button button-primary full" type="button">✦ <span data-i18n="cleanCurrent"></span></button>
+              <button id="cleanAll" class="button button-secondary full" type="button">▦ <span data-i18n="cleanAll"></span></button>
+              <button id="resetSelection" class="button button-ghost full" type="button">↻ <span data-i18n="reset"></span></button>
+            </div>
+          </aside>
+
+          <div class="preview-card">
+            <div class="preview-toolbar">
+              <div class="file-meta"><strong id="activeName"></strong><span id="activeDimensions"></span></div>
+              <div class="preview-nav">
+                <button id="previousImage" class="icon-button" type="button" aria-label="Previous image">‹</button>
+                <span id="activeCounter"></span>
+                <button id="nextImage" class="icon-button" type="button" aria-label="Next image">›</button>
+              </div>
+            </div>
+
+            <div id="imageStage" class="image-stage">
+              <img id="sourceImage" alt="Original upload" draggable="false" />
+              <div id="resultLayer" class="result-layer hidden"><img id="resultImage" alt="Processed result" draggable="false" /></div>
+              <div id="selectionBox" class="selection-box"><span id="selectionLabel"></span></div>
+              <div id="compareLine" class="compare-line hidden"><span></span></div>
+            </div>
+
+            <div class="comparison-footer">
+              <span data-i18n="before"></span>
+              <input id="compareSlider" aria-label="Compare" type="range" min="0" max="100" value="55" disabled />
+              <span data-i18n="after"></span>
+            </div>
+
+            <div class="preview-actions">
+              <span id="activeStatus" class="status status-ready"></span>
+              <button id="downloadCurrent" class="button button-primary compact" type="button" disabled>⇩ <span data-i18n="download"></span></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="queueSection" class="queue-section section-pad hidden">
+        <div class="section-heading queue-heading">
+          <div><span class="section-kicker">02 · BATCH</span><h2 data-i18n="queue"></h2></div>
+          <button id="downloadZip" class="button button-secondary" type="button">▦ <span data-i18n="downloadAll"></span></button>
+        </div>
+        <div id="queueGrid" class="queue-grid"></div>
+      </section>
+
+      <section class="help-section section-pad">
+        <div class="section-heading"><div><span class="section-kicker">03 · IMPACT</span><h2 data-i18n="how"></h2></div></div>
+        <div class="help-grid">
+          <article><span>🛡</span><h3 data-i18n="how1Title"></h3><p data-i18n="how1Body"></p></article>
+          <article><span>⚡</span><h3 data-i18n="how2Title"></h3><p data-i18n="how2Body"></p></article>
+          <article><span>✓</span><h3 data-i18n="how3Title"></h3><p data-i18n="how3Body"></p></article>
+        </div>
+        <div class="responsible-card"><span>🛡</span><div><h3 data-i18n="responsible"></h3><p data-i18n="responsibleBody"></p></div></div>
+      </section>
+
+      <section class="repo-section section-pad" id="repository">
+        <div>
+          <span class="section-kicker">04 · OPEN SOURCE</span>
+          <h2 data-i18n="github"></h2>
+          <p data-i18n="openSource"></p>
+        </div>
+        <a class="button button-primary" href="https://github.com/new" target="_blank" rel="noreferrer">⌘ Create repository</a>
+      </section>
+    </main>
+
+    <footer>
+      <div class="brand"><span class="brand-mark">✦</span><span>CleanMark</span></div>
+      <div class="footer-copy"><strong data-i18n="powered"></strong><span data-i18n="crafted"></span></div>
+      <div class="footer-links"><a href="#workspace">Tool</a><a href="#repository">GitHub</a><span id="copyright"></span></div>
+    </footer>
+
+    <div id="toast" class="toast hidden" role="status"></div>
+  </div>
+  <script src="./app.js" defer></script>
+</body>
+</html>
