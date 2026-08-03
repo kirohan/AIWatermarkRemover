@@ -1,0 +1,12 @@
+{
+  "name": "kai-ai-removes",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Zero-dependency, privacy-first browser-local image and video cleanup utility by KAI AI.",
+  "author": "KAI AI",
+  "license": "MIT",
+  "scripts": {
+    "start": "python3 -m http.server 4173",
+    "check": "node --check app.js"
+  }
+}
